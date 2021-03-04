@@ -265,25 +265,42 @@ function AutoPlay(){
 //importer une génération et l'afficher
 function impo() {
 
-    grille = document.getElementById("taille").value;
-    grille = document.getElementById("taille").value;
+    let text;
+    let file = document.querySelector("#file-input").files[0];
+    let reader = new FileReader();
 
-    var monTableauString = document.getElementById("tab").value;
-    var monTableauString = document.getElementById("tab").value;
-    
-    var tamp1;
+    reader.addEventListener('load', function(e) {
+        text = e.target.result;
 
-    tamp1 = monTableauString.split(";");
-    var tamp2 = new Array(tamp1.length)
+        grille = text[0]+text[1];
+            
+        var monTableauString 
 
+        for(var i = 2; i<text.length; i++){
+            if(i==2){
+                monTableauString = text[2]
+            }
+            else{
+                monTableauString = monTableauString + text[i];
+            }
+        }
+        
+        var tamp1;
+                
+        tamp1 = monTableauString.split(";");
+        var tamp2 = new Array(tamp1.length)
+                
         for(var i=0; i<tamp1.length; i++){
             tamp2[i]=tamp1[i].split(",");
         }
+                
+        monTableau = tamp2;
+                
+        createTab();
+        remplissageGrille();
+    });
 
-    monTableau = tamp2;
-
-    createTab();
-    remplissageGrille();
+    reader.readAsText(file);
 }
 
 
@@ -319,7 +336,25 @@ function expo(){
     }
     
     affichage = grille + " " + coor;
-    alert(affichage);
-}
+    //alert(affichage);
+        
+        // Convert the text to BLOB.
+        const textToBLOB = new Blob([affichage], { type: 'text/plain' });
+        const sFileName = 'input.txt';	   // The file to save the data.
 
+        let newLink = document.createElement("a");
+        newLink.download = sFileName;
+
+        if (window.webkitURL != null) {
+            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+        }
+        else {
+            newLink.href = window.URL.createObjectURL(textToBLOB);
+            newLink.style.display = "none";
+            document.body.appendChild(newLink);
+        }
+
+        newLink.click(); 
+
+}
 
