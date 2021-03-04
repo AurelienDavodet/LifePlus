@@ -1,0 +1,13 @@
+td {
+    border: 1px solid;
+    width: 10px;
+    height: 10px;
+}
+
+td.inactif {
+    background-color: transparent;
+}
+
+td.actif {
+    background-color:#000;
+}
